@@ -88,8 +88,11 @@ function loadPackages(adminUsername) {
 // Add Package
 function addPackage(event) {
     event.preventDefault();
-    let loggedInAdmin = sessionStorage.getItem("loggedInAdmin");
-    if (!loggedInAdmin) return;
+    let loggedInAdmin = sessionStorage.getItem("loggedInAdmin"); // Get logged-in admin username
+    if (!loggedInAdmin) {
+        alert("You must be logged in to add a package.");
+        return;
+    }
 
     let payload = new URLSearchParams();
     payload.append("action", "addPackage");
@@ -106,15 +109,23 @@ function addPackage(event) {
     payload.append("receiverPhone", document.getElementById("receiverPhone").value.trim());
     payload.append("receiverEmail", document.getElementById("receiverEmail").value.trim());
     payload.append("receiverAddress", document.getElementById("receiverAddress").value.trim());
+    payload.append("username", loggedInAdmin);  // Include logged-in admin's username
+
+    console.log("Sending Payload for addPackage:", payload.toString());
 
     fetch(APP_SCRIPT_POST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: payload
-    }).then(response => response.json())
-      .then(data => loadPackages(loggedInAdmin))
-      .catch(error => console.error("Error adding package:", error));
+        body: payload.toString()
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Response Data:", data);
+        loadPackages(loggedInAdmin);
+    })
+    .catch(error => console.error("Error adding package:", error));
 }
+
 
 // Add Days
 function addDays(trackingNumber) {
@@ -124,18 +135,26 @@ function addDays(trackingNumber) {
 
     let payload = new URLSearchParams();
     payload.append("action", "addDays");
+    payload.append("trackingNumber", trackingNumber);
     payload.append("additionalDays", additionalDays);
     payload.append("delayReason", delayReason);
-    payload.append("trackingNumber", trackingNumber);
+
+    console.log("Sending Payload for addDays:", payload.toString());
 
     fetch(APP_SCRIPT_POST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: payload
-    }).then(response => response.json())
-      .then(data => loadPackages(sessionStorage.getItem("loggedInAdmin")))
-      .catch(error => console.error("Error adding days:", error));
+        body: payload.toString()
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Response Data:", data);
+        loadPackages(sessionStorage.getItem("loggedInAdmin"));
+    })
+    .catch(error => console.error("Error adding days:", error));
 }
+
+
 
 // Delete Package
 function deletePackage(trackingNumber) {
@@ -143,17 +162,23 @@ function deletePackage(trackingNumber) {
 
     let payload = new URLSearchParams();
     payload.append("action", "deletePackage");
-    payload.append("deletePackage", "TRUE");
     payload.append("trackingNumber", trackingNumber);
+
+    console.log("Sending Payload for deletePackage:", payload.toString());
 
     fetch(APP_SCRIPT_POST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: payload
-    }).then(response => response.json())
-      .then(data => loadPackages(sessionStorage.getItem("loggedInAdmin")))
-      .catch(error => console.error("Error deleting package:", error));
+        body: payload.toString()
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Response Data:", data);
+        loadPackages(sessionStorage.getItem("loggedInAdmin"));
+    })
+    .catch(error => console.error("Error deleting package:", error));
 }
+
 
 
 // User Tracking
