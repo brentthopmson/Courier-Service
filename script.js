@@ -126,7 +126,6 @@ function addPackage(event) {
     .catch(error => console.error("Error adding package:", error));
 }
 
-
 // Add Days
 function addDays(trackingNumber) {
     let additionalDays = prompt("Enter additional days:");
@@ -153,8 +152,6 @@ function addDays(trackingNumber) {
     })
     .catch(error => console.error("Error adding days:", error));
 }
-
-
 
 // Delete Package
 function deletePackage(trackingNumber) {
