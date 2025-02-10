@@ -1,0 +1,58 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div id="loginSection">
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <input type="text" id="adminUsername" placeholder="Username" required>
+            <input type="password" id="adminPassword" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+    <div id="dashboardSection" style="display:none;">
+        <h2>Welcome, <span id="adminUsernameDisplay"></span></h2>
+        <button onclick="logoutAdmin()">Logout</button>
+        <button onclick="showAddPackageModal()">Add Package</button>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Tracking Number</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="packageTable"></tbody>
+        </table>
+    </div>
+
+    <div id="addPackageModal" style="display:none;">
+        <h2>Add Package</h2>
+        <form id="addPackageForm" onsubmit="addPackage(event)">
+            <input type="text" id="packageId" placeholder="Package ID" required>
+            <input type="text" id="deliveryType" placeholder="Delivery Type" required>
+            <input type="text" id="itemType" placeholder="Item Type" required>
+            <input type="text" id="sender" placeholder="Sender Name" required>
+            <input type="text" id="senderPhone" placeholder="Sender Phone" required>
+            <input type="email" id="senderEmail" placeholder="Sender Email" required>
+            <input type="text" id="senderAddress" placeholder="Sender Address" required>
+            <input type="text" id="senderNote" placeholder="Sender Note">
+            <input type="text" id="receiver" placeholder="Receiver Name" required>
+            <input type="text" id="receiverPhone" placeholder="Receiver Phone" required>
+            <input type="email" id="receiverEmail" placeholder="Receiver Email" required>
+            <input type="text" id="receiverAddress" placeholder="Receiver Address" required>
+            <button type="submit">Add Package</button>
+            <button type="button" onclick="hideAddPackageModal()">Cancel</button>
+        </form>
+    </div>
+</body>
+</html>
