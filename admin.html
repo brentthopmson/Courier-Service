@@ -1,4 +1,3 @@
-<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,62 +8,186 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh; /* Ensure the body covers the full height */
         }
 
-        #loginSection, #dashboardSection, #addPackageModal {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        #loginSection, #dashboardSection {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+            max-width: 90%;
         }
 
-        #loginForm, #addPackageForm {
+        #loginSection {
+            max-width: 400px;
+        }
+
+        #loginForm {
             display: flex;
             flex-direction: column;
-            width: 300px;
+            width: 100%;
         }
 
-        #loginForm input, #addPackageForm input {
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        #loginForm input {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
-        #loginForm button, #addPackageForm button {
-            padding: 10px;
+        #loginForm button {
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             background-color: #519e99;
             color: white;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #loginForm button:hover {
+            background-color: #428b86;
+        }
+
+        #dashboardSection h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #dashboardSection button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #519e99;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
         }
 
         th {
             background-color: #f2f2f2;
+            font-weight: bold;
         }
 
-        #dashboardSection button {
-            margin-right: 10px;
+        /* Add Package Modal Styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #addPackageForm {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #addPackageForm input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #addPackageForm button {
             padding: 10px;
             border: none;
             border-radius: 4px;
             background-color: #519e99;
             color: white;
             cursor: pointer;
+        }
+
+        /* Media Query for Larger Screens */
+        @media (min-width: 768px) {
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+
+            #loginSection, #dashboardSection {
+                max-width: 800px;
+            }
+        }
+
+        /* Mobile Styles */
+        .mobile-hide {
+            display: none;
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 768px) {
+            .tablet-hide {
+                display: none;
+            }
+
+            .mobile-hide {
+                display: table-cell;
+            }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 992px) {
+            .desktop-hide {
+                display: none;
+            }
+
+            .tablet-hide, .mobile-hide  {
+                display: table-cell;
+            }
         }
     </style>
 </head>
@@ -85,9 +208,13 @@
         <table>
             <thead>
                 <tr>
-                    <th>Tracking Number</th>
-                    <th>Sender</th>
-                    <th>Receiver</th>
+                    <th>Tracking #</th>
+                    <th class="mobile-hide">Send Date</th>
+                    <th class="mobile-hide">Item Type</th>
+                    <th class="tablet-hide mobile-hide">Sender Name</th>
+                    <th class="tablet-hide mobile-hide">Receiver Name</th>
+                    <th class="tablet-hide mobile-hide">Total Days</th>
+                    <th>Delivery Date</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -96,24 +223,86 @@
         </table>
     </div>
 
-    <div id="addPackageModal" style="display:none;">
-        <h2>Add Package</h2>
-        <form id="addPackageForm" onsubmit="addPackage(event)">
-            <input type="text" id="packageId" placeholder="Package ID" required>
-            <input type="text" id="deliveryType" placeholder="Delivery Type" required>
-            <input type="text" id="itemType" placeholder="Item Type" required>
-            <input type="text" id="sender" placeholder="Sender Name" required>
-            <input type="text" id="senderPhone" placeholder="Sender Phone" required>
-            <input type="email" id="senderEmail" placeholder="Sender Email" required>
-            <input type="text" id="senderAddress" placeholder="Sender Address" required>
-            <input type="text" id="senderNote" placeholder="Sender Note">
-            <input type="text" id="receiver" placeholder="Receiver Name" required>
-            <input type="text" id="receiverPhone" placeholder="Receiver Phone" required>
-            <input type="email" id="receiverEmail" placeholder="Receiver Email" required>
-            <input type="text" id="receiverAddress" placeholder="Receiver Address" required>
-            <button type="submit">Add Package</button>
-            <button type="button" onclick="hideAddPackageModal()">Cancel</button>
-        </form>
+    <!-- The Modal -->
+    <div id="addPackageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideAddPackageModal()">&times;</span>
+            <h2>Add Package</h2>
+            <form id="addPackageForm" onsubmit="addPackage(event)">
+                <input type="text" id="packageId" placeholder="Package ID" required>
+                <input type="text" id="deliveryType" placeholder="Delivery Type" required>
+                <input type="text" id="itemType" placeholder="Item Type" required>
+                <input type="text" id="sender" placeholder="Sender Name" required>
+                <input type="text" id="senderPhone" placeholder="Sender Phone" required>
+                <input type="email" id="senderEmail" placeholder="Sender Email" required>
+                <input type="text" id="senderAddress" placeholder="Sender Address" required>
+                <input type="text" id="senderNote" placeholder="Sender Note">
+                <input type="text" id="receiver" placeholder="Receiver Name" required>
+                <input type="text" id="receiverPhone" placeholder="Receiver Phone" required>
+                <input type="email" id="receiverEmail" placeholder="Receiver Email" required>
+                <input type="text" id="receiverAddress" placeholder="Receiver Address" required>
+                <button type="submit">Add Package</button>
+                <button type="button" onclick="hideAddPackageModal()">Cancel</button>
+            </form>
+        </div>
     </div>
+
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideErrorModal()">&times;</span>
+            <h2 id="errorMessageHeader">Error</h2>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideSuccessModal()">&times;</span>
+            <h2 id="successMessageHeader">Success</h2>
+            <p id="successMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        function showAddPackageModal() {
+            document.getElementById("addPackageModal").style.display = "block";
+        }
+
+        function hideAddPackageModal() {
+            document.getElementById("addPackageModal").style.display = "none";
+        }
+
+        function showErrorModal(message) {
+            document.getElementById("errorMessage").innerText = message;
+            document.getElementById("errorModal").style.display = "block";
+        }
+
+        function hideErrorModal() {
+            document.getElementById("errorModal").style.display = "none";
+        }
+
+        function showSuccessModal(message) {
+            document.getElementById("successMessage").innerText = message;
+            document.getElementById("successModal").style.display = "block";
+        }
+
+        function hideSuccessModal() {
+            document.getElementById("successModal").style.display = "none";
+        }
+
+        // Close the modal if the user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("addPackageModal")) {
+                document.getElementById("addPackageModal").style.display = "none";
+            }
+            if (event.target == document.getElementById("errorModal")) {
+                document.getElementById("errorModal").style.display = "none";
+            }
+             if (event.target == document.getElementById("successModal")) {
+                document.getElementById("successModal").style.display = "none";
+            }
+        }
+
+    </script>
 </body>
 </html>

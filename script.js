@@ -67,17 +67,23 @@ function loadPackages(adminUsername) {
     fetch(APP_SCRIPT_PACKAGE_URL)
         .then(response => response.json())
         .then(data => {
-            let filteredData = data.filter(row => row.username === adminUsername);
+            let filteredData = data.filter(row => row.username === adminUsername && row.status !== "DELETED");
             let tableBody = document.getElementById("packageTable");
             tableBody.innerHTML = "";
             filteredData.forEach(pkg => {
                 let row = `<tr>
                               <td>${pkg.trackingNumber}</td>
-                              <td>${pkg.sender}</td>
-                              <td>${pkg.receiver}</td>
+                              <td class="mobile-hide">${pkg.sendDateTime}</td>
+                              <td class="mobile-hide">${pkg.itemType}</td>
+                              <td class="tablet-hide mobile-hide">${pkg.senderName}</td>
+                              <td class="tablet-hide mobile-hide">${pkg.receiverName}</td>
+                              <td class="tablet-hide mobile-hide">${pkg.totalDays}</td>
+                              <td>${pkg.expectedDeliveryDate}</td>
                               <td>${pkg.status}</td>
-                              ${pkg.status !== "DELIVERED" && pkg.status !== "RETURNED" ? `<td><button onclick="addDays('${pkg.trackingNumber}')">+</button></td>` : ""}
-                              <td><button onclick="deletePackage('${pkg.trackingNumber}')">🗑</button></td>
+                              <td>
+                                  ${pkg.status !== "DELIVERED" && pkg.status !== "RETURNED" ? `<button onclick="addDays('${pkg.trackingNumber}')">+</button>` : ""}
+                                  <button onclick="deletePackage('${pkg.trackingNumber}')">🗑</button>
+                              </td>
                            </tr>`;
                 tableBody.innerHTML += row;
             });
@@ -86,13 +92,17 @@ function loadPackages(adminUsername) {
 }
 
 // Add Package
-function addPackage(event) {
+async function addPackage(event) {
     event.preventDefault();
     let loggedInAdmin = sessionStorage.getItem("loggedInAdmin"); // Get logged-in admin username
     if (!loggedInAdmin) {
         alert("You must be logged in to add a package.");
         return;
     }
+
+    const addButton = event.submitter;
+    addButton.disabled = true;
+    addButton.innerText = "Loading...";
 
     let payload = new URLSearchParams();
     payload.append("action", "addPackage");
@@ -113,17 +123,31 @@ function addPackage(event) {
 
     console.log("Sending Payload for addPackage:", payload.toString());
 
-    fetch(APP_SCRIPT_POST_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: payload.toString()
-    })
-    .then(response => response.json())
-    .then(data => {
+    try {
+        const response = await fetch(APP_SCRIPT_POST_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: payload.toString()
+        });
+
+        const data = await response.json();
         console.log("Response Data:", data);
-        loadPackages(loggedInAdmin);
-    })
-    .catch(error => console.error("Error adding package:", error));
+
+        if (data && data.success) {
+            hideAddPackageModal();
+            document.getElementById("addPackageForm").reset();
+            loadPackages(loggedInAdmin);
+            showSuccessModal(`Package added successfully! Tracking Number: ${data.trackingNumber}`);
+        } else {
+            showErrorModal(data.message || "Failed to add package. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error adding package:", error);
+        showErrorModal("An unexpected error occurred. Please try again.");
+    } finally {
+        addButton.disabled = false;
+        addButton.innerText = "Add Package";
+    }
 }
 
 // Add Days
@@ -177,7 +201,6 @@ function deletePackage(trackingNumber) {
 }
 
 
-
 // User Tracking
 document.addEventListener('DOMContentLoaded', function() {
     const trackingInput = document.getElementById('trackingInput');
@@ -208,8 +231,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 let package = data.find(pkg => pkg.trackingNumber === trackingId);
                 let resultDiv = document.getElementById("trackingResult");
                 if (package) {
-                    resultDiv.innerHTML = `<p><strong>Tracking ID:</strong> ${package.trackingNumber}</p>
-                                        <p><strong>Status:</strong> ${package.status}</p>`;
+                    let delayReasonsHtml = '';
+                    if (package.delayReasons && Array.isArray(package.delayReasons)) {
+                        delayReasonsHtml = package.delayReasons.map(reason => `<p><strong>Reason:</strong> ${reason.reason}, <strong>Days:</strong> ${reason.days}</p>`).join('');
+                    }
+                
+                    resultDiv.innerHTML = `
+                        <div>
+                            <h4>Status</h4>
+                            <p><strong>Tracking ID:</strong> ${package.trackingNumber}</p>
+                            <p><strong>Status:</strong> ${package.status}</p>
+                            <p><strong>Send Date:</strong> ${package.sendDateTime}</p>
+                            <p><strong>Delivery Type:</strong> ${package.deliveryType}</p>
+                            <p><strong>Item Type:</strong> ${package.itemType}</p>
+                            <p><strong>Delivery Days:</strong> ${package.deliveryDays}</p>
+                            <p><strong>Additional Days:</strong> ${package.additionalDays}</p>
+                            <div>
+                                <strong>Delay Reasons:</strong>
+                                ${delayReasonsHtml}
+                            </div>
+                            <p><strong>Total Days:</strong> ${package.totalDays}</p>
+                            <p><strong>Expected Delivery Date:</strong> ${package.expectedDeliveryDate}</p>
+                            <p><strong>Routes:</strong> ${package.routes}</p>
+                            <p><strong>Current Location:</strong> ${package.currentLocation}</p>
+                        </div>
+                        <div>
+                            <h4>Receiver Information</h4>
+                            <p><strong>Name:</strong> ${package.receiverName}</p>
+                            <p><strong>Phone:</strong> ${package.receiverPhone}</p>
+                            <p><strong>Email:</strong> ${package.receiverEmail}</p>
+                            <p><strong>Address:</strong> ${package.receiverAddress}</p>
+                        </div>
+                        <div>
+                            <h4>Sender Information</h4>
+                            <p><strong>Name:</strong> ${package.senderName}</p>
+                            <p><strong>Phone:</strong> ${package.senderPhone}</p>
+                            <p><strong>Email:</strong> ${package.senderEmail}</p>
+                            <p><strong>Address:</strong> ${package.senderAddress}</p>
+                            <p><strong>Note:</strong> ${package.senderNote}</p>
+                        </div>
+                    `;
                 } else {
                     resultDiv.innerHTML = `<p style="color:red;">Package not found.</p>`;
                 }
@@ -223,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 });
-
 
 
 
