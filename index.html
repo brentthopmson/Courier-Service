@@ -33,6 +33,46 @@
         gtag('js', new Date());
         gtag('config', 'G-Z5RCF4F7T8');
     </script>
+    <style>
+        .tracking-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .tracking-info > div {
+            flex: 1 1 100%;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        @media (min-width: 768px) {
+            .tracking-info {
+                display: flex;
+                flex-wrap: nowrap;
+            }
+
+            .tracking-info > .status-info {
+                flex: 1 1 50%;
+            }
+
+            .tracking-info > .contact-info {
+                flex: 1 1 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .tracking-info > .contact-info > div {
+                flex: 1 1 45%;
+            }
+        }
+
+        .status-info {
+            flex: 1 1 100%;
+        }
+    </style>
 </head>
 <body id="page-top">
     <header class="carrier-header">

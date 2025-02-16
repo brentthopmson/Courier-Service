@@ -135,7 +135,7 @@
             width: 100%;
         }
 
-        #addPackageForm input {
+        #addPackageForm input, #addPackageForm select {
             margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -151,6 +151,27 @@
             cursor: pointer;
         }
 
+        /* Loading Spinner */
+        #loadingSpinner {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Media Query for Larger Screens */
         @media (min-width: 768px) {
             body {
@@ -158,8 +179,12 @@
                 padding: 20px;
             }
 
-            #loginSection, #dashboardSection {
+            #loginSection {
                 max-width: 800px;
+            }
+
+            #dashboardSection {
+                max-width: 100%;
             }
         }
 
@@ -192,6 +217,7 @@
     </style>
 </head>
 <body>
+    <div id="loadingSpinner"></div>
     <div id="loginSection">
         <h2>Admin Login</h2>
         <form id="loginForm">
@@ -230,7 +256,12 @@
             <h2>Add Package</h2>
             <form id="addPackageForm" onsubmit="addPackage(event)">
                 <input type="text" id="packageId" placeholder="Package ID" required>
-                <input type="text" id="deliveryType" placeholder="Delivery Type" required>
+                <select id="deliveryType" required>
+                    <option value="">Select Delivery Type</option>
+                    <option value="NORMAL">NORMAL</option>
+                    <option value="FAST-TRACK">FAST-TRACK</option>
+                    <option value="SLOW">SLOW</option>
+                </select>
                 <input type="text" id="itemType" placeholder="Item Type" required>
                 <input type="text" id="sender" placeholder="Sender Name" required>
                 <input type="text" id="senderPhone" placeholder="Sender Phone" required>

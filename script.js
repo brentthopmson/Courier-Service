@@ -63,7 +63,17 @@ function logoutAdmin() {
 }
 
 // Load Admin Packages
+function showLoadingSpinner() {
+    document.getElementById("loadingSpinner").style.display = "block";
+}
+
+function hideLoadingSpinner() {
+    document.getElementById("loadingSpinner").style.display = "none";
+}
+
+// Load Admin Packages
 function loadPackages(adminUsername) {
+    showLoadingSpinner();
     fetch(APP_SCRIPT_PACKAGE_URL)
         .then(response => response.json())
         .then(data => {
@@ -88,7 +98,8 @@ function loadPackages(adminUsername) {
                 tableBody.innerHTML += row;
             });
         })
-        .catch(error => console.error("Error fetching package data:", error));
+        .catch(error => console.error("Error fetching package data:", error))
+        .finally(() => hideLoadingSpinner());
 }
 
 // Add Package
@@ -104,10 +115,16 @@ async function addPackage(event) {
     addButton.disabled = true;
     addButton.innerText = "Loading...";
 
+    function dateToExcelSerial(date) {
+        const startDate = new Date(Date.UTC(1899, 11, 30));
+        const diff = date - startDate;
+        return diff / (1000 * 60 * 60 * 24);
+    }
+
     let payload = new URLSearchParams();
     payload.append("action", "addPackage");
     payload.append("id", document.getElementById("packageId").value.trim());
-    payload.append("sendDateTime", new Date().toISOString());
+    payload.append("sendDateTime", dateToExcelSerial(new Date()));
     payload.append("deliveryType", document.getElementById("deliveryType").value.trim());
     payload.append("itemType", document.getElementById("itemType").value.trim());
     payload.append("senderName", document.getElementById("sender").value.trim());
@@ -164,6 +181,7 @@ function addDays(trackingNumber) {
 
     console.log("Sending Payload for addDays:", payload.toString());
 
+    showLoadingSpinner();
     fetch(APP_SCRIPT_POST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -174,7 +192,8 @@ function addDays(trackingNumber) {
         console.log("Response Data:", data);
         loadPackages(sessionStorage.getItem("loggedInAdmin"));
     })
-    .catch(error => console.error("Error adding days:", error));
+    .catch(error => console.error("Error adding days:", error))
+    .finally(() => hideLoadingSpinner());
 }
 
 // Delete Package
@@ -187,6 +206,7 @@ function deletePackage(trackingNumber) {
 
     console.log("Sending Payload for deletePackage:", payload.toString());
 
+    showLoadingSpinner();
     fetch(APP_SCRIPT_POST_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -197,8 +217,17 @@ function deletePackage(trackingNumber) {
         console.log("Response Data:", data);
         loadPackages(sessionStorage.getItem("loggedInAdmin"));
     })
-    .catch(error => console.error("Error deleting package:", error));
+    .catch(error => console.error("Error deleting package:", error))
+    .finally(() => hideLoadingSpinner());
 }
+
+// Refresh packages every 2 minutes
+setInterval(() => {
+    let loggedInAdmin = sessionStorage.getItem("loggedInAdmin");
+    if (loggedInAdmin) {
+        loadPackages(loggedInAdmin);
+    }
+}, 120000); // 120000 ms = 2 minutes
 
 
 // User Tracking
@@ -222,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
         spinner.style.display = 'inline-block';
         binoculars.style.display = 'none';
         trackButton.disabled = true;
-
+    
         // Your existing tracking logic here
         let trackingId = trackingInput.value.trim();
         fetch(APP_SCRIPT_PACKAGE_URL)
@@ -230,45 +259,48 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 let package = data.find(pkg => pkg.trackingNumber === trackingId);
                 let resultDiv = document.getElementById("trackingResult");
-                if (package) {
+                if (package && package.status !== 'DELETED') {
                     let delayReasonsHtml = '';
                     if (package.delayReasons && Array.isArray(package.delayReasons)) {
                         delayReasonsHtml = package.delayReasons.map(reason => `<p><strong>Reason:</strong> ${reason.reason}, <strong>Days:</strong> ${reason.days}</p>`).join('');
                     }
-                
+    
+                    console.log('Delay Reasons:', delayReasonsHtml);
+    
                     resultDiv.innerHTML = `
-                        <div>
-                            <h4>Status</h4>
-                            <p><strong>Tracking ID:</strong> ${package.trackingNumber}</p>
-                            <p><strong>Status:</strong> ${package.status}</p>
-                            <p><strong>Send Date:</strong> ${package.sendDateTime}</p>
-                            <p><strong>Delivery Type:</strong> ${package.deliveryType}</p>
-                            <p><strong>Item Type:</strong> ${package.itemType}</p>
-                            <p><strong>Delivery Days:</strong> ${package.deliveryDays}</p>
-                            <p><strong>Additional Days:</strong> ${package.additionalDays}</p>
-                            <div>
-                                <strong>Delay Reasons:</strong>
-                                ${delayReasonsHtml}
+                        <div class="tracking-info">
+                            <div class="status-info">
+                                <h4>Status</h4>
+                                <p><strong>Tracking ID:</strong> ${package.trackingNumber}</p>
+                                <p><strong>Status:</strong> ${package.status}</p>
+                                <p><strong>Send Date:</strong> ${package.sendDateTime}</p>
+                                <p><strong>Delivery Type:</strong> ${package.deliveryType}</p>
+                                <p><strong>Item Type:</strong> ${package.itemType}</p>
+                                <div>
+                                    <strong>Delay Reasons:</strong>
+                                    ${delayReasonsHtml}
+                                </div>
+                                <p><strong>Expected Delivery Date:</strong> ${package.expectedDeliveryDate}</p>
+                                <p><strong>Routes:</strong> ${package.routes}</p>
+                                <p><strong>Current Location:</strong> ${package.currentLocation}</p>
                             </div>
-                            <p><strong>Total Days:</strong> ${package.totalDays}</p>
-                            <p><strong>Expected Delivery Date:</strong> ${package.expectedDeliveryDate}</p>
-                            <p><strong>Routes:</strong> ${package.routes}</p>
-                            <p><strong>Current Location:</strong> ${package.currentLocation}</p>
-                        </div>
-                        <div>
-                            <h4>Receiver Information</h4>
-                            <p><strong>Name:</strong> ${package.receiverName}</p>
-                            <p><strong>Phone:</strong> ${package.receiverPhone}</p>
-                            <p><strong>Email:</strong> ${package.receiverEmail}</p>
-                            <p><strong>Address:</strong> ${package.receiverAddress}</p>
-                        </div>
-                        <div>
-                            <h4>Sender Information</h4>
-                            <p><strong>Name:</strong> ${package.senderName}</p>
-                            <p><strong>Phone:</strong> ${package.senderPhone}</p>
-                            <p><strong>Email:</strong> ${package.senderEmail}</p>
-                            <p><strong>Address:</strong> ${package.senderAddress}</p>
-                            <p><strong>Note:</strong> ${package.senderNote}</p>
+                            <div class="contact-info">
+                                <div class="receiver-info">
+                                    <h4>Receiver Information</h4>
+                                    <p><strong>Name:</strong> ${package.receiverName}</p>
+                                    <p><strong>Phone:</strong> ${package.receiverPhone}</p>
+                                    <p><strong>Email:</strong> ${package.receiverEmail}</p>
+                                    <p><strong>Address:</strong> ${package.receiverAddress}</p>
+                                </div>
+                                <div class="sender-info">
+                                    <h4>Sender Information</h4>
+                                    <p><strong>Name:</strong> ${package.senderName}</p>
+                                    <p><strong>Phone:</strong> ${package.senderPhone}</p>
+                                    <p><strong>Email:</strong> ${package.senderEmail}</p>
+                                    <p><strong>Address:</strong> ${package.senderAddress}</p>
+                                    <p><strong>Note:</strong> ${package.senderNote}</p>
+                                </div>
+                            </div>
                         </div>
                     `;
                 } else {
@@ -284,7 +316,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 });
-
 
 
 const translations = {
