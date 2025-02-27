@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Antique Vault - Contact</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #e8dfd0;
+            color: #5a4636;
+        }
+        .container-fluid {
+            padding: 30px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+        .btn-custom {
+            background-color: #8b5e3c;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn-custom:hover {
+            background-color: #6d482f;
+        }
+        .featured-antiques img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .footer {
+            background: #5a4636;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .section {
+            padding: 40px 0;
+        }
+        .contact-icons {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="header">
+            <img src="https://robertlugana.sirv.com/Antique%20Vault/JayLogo.jpg" alt="The Antique Vault Logo" class="logo">
+            <h1>The Antique Vault</h1>
+            <div class="dropdown">
+                <button aria-expanded="true" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" id="languages-menu" type="button">
+                    <span class="flags"><i class="fa fa-globe"></i> <span data-lang="language">English</span></span>
+                    <span class="caret"></span>
+                </button>
+                <ul aria-labelledby="languages-menu" class="dropdown-menu">
+                    <li><a href="#" onclick="changeLanguage('en')">🇺🇸 <span data-lang="english">English</span></a></li>
+                    <li><a href="#" onclick="changeLanguage('de')">🇩🇪 <span data-lang="german">Deutsch</span></a></li>
+                    <li><a href="#" onclick="changeLanguage('fr')">🇫🇷 <span data-lang="french">Français</span></a></li>
+                    <li><a href="#" onclick="changeLanguage('it')">🇮🇹 <span data-lang="italian">Italiano</span></a></li>
+                    <li><a href="#" onclick="changeLanguage('es')">🇪🇸 <span data-lang="spanish">Español</span></a></li>
+                    <li><a href="#" onclick="changeLanguage('pt')">🇵🇹 <span data-lang="portuguese">Português</span></a></li>
+                </ul>
+            </div>
+        </header>
+        
+        <section class="section text-center">
+            <h2 data-lang="aboutUsTitle">About Us</h2>
+            <p data-lang="aboutUsText1">Where history meets elegance, and timeless treasures are just a step away from becoming part of your collection.</p>
+            <p data-lang="aboutUsText2">We specialize in high-quality antique and vintage items, offering rare furniture pieces, classic décor, and exquisite collectibles.</p>
+            <p data-lang="aboutUsText3">Enjoy flexible payment options, including our "Pay Later" plan, to bring home your dream antiques with ease.</p>
+        </section>
+        
+        <section class="section">
+            <h2 class="text-center" data-lang="featuredAntiquesTitle">Featured Antiques</h2>
+            <div class="row featured-antiques">
+                <div class="col-md-4">
+                    <img src="https://robertlugana.sirv.com/Antique%20Vault/Antiques/WhatsApp%20Image%202025-02-26%20at%2004.05.43_7ca8baff.jpg" alt="Antique Sample 3">
+                    <p class="text-center" data-lang="antique6">A RARE WHITE JADE 'IMPERIAL PROCESSION' BRUSHPOT QING DYNASTY, QIANLONG / JIAQING PERIOD</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://robertlugana.sirv.com/Antique%20Vault/Antiques/WhatsApp%20Image%202025-02-26%20at%2004.08.19_790b5f1c.jpg" alt="Antique Sample 1">
+                    <p class="text-center" data-lang="antique4">ARNOLD BÖCKLIN, MEDUSENSCHILD (SHIELD WITH THE HEAD OF MEDUSA)</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://robertlugana.sirv.com/Antique%20Vault/Antiques/WhatsApp%20Image%202025-02-26%20at%2004.10.30_be0b2350.jpg" alt="Antique Sample 3">
+                    <p class="text-center" data-lang="antique3">AN EXCEPTIONALLY RARE AND LARGE WHITE JADE ‘CHILONG’ BI DISC, EASTERN HAN DYNASTY</p>
+                </div>
+            </div>
+            <div class="row featured-antiques">
+                <div class="col-md-4">
+                    <img src="https://robertlugana.sirv.com/Antique%20Vault/Antiques/WhatsApp%20Image%202025-02-26%20at%2004.06.23_60f0e759.jpg" alt="Antique Sample 2">
+                    <p class="text-center" data-lang="antique5">A GILT-BRONZE FIGURE OF CINTAMANICAKRA AVALOKITESHVARA LATE TANG DYNASTY / FIVE DYNASTIES</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://robertlugana.sirv.com/Antique%20Vault/Antiques/WhatsApp%20Image%202025-02-25%20at%2009.05.30_78c1c6d4.jpg" alt="Antique Sample 1">
+                    <p class="text-center" data-lang="antique1">Leica 0-Series No.122</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://robertlugana.sirv.com/Antique%20Vault/Antiques/WhatsApp%20Image%202025-02-26%20at%2004.12.27_2c4c151a.jpg" alt="Antique Sample 2">
+                    <p class="text-center" data-lang="antique2">AN EXCEEDINGLY RARE AND IMPORTANT COMPLETE SET OF THE SUTRA OF PERFECT ENLIGHTENMENT
+                        BY THE QIANLONG EMPEROR, DATED QIANLONG BINGYIN YEAR, CORRESPONDING TO 1746</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section text-center">
+            <h2 data-lang="contactUsTitle">Contact Us</h2>
+            <p><i class="fas fa-user contact-icons"></i><strong data-lang="ceo">CEO:</strong> Vincent Ethamma</p>
+            <p><i class="fas fa-store contact-icons"></i><strong data-lang="address">Address:</strong> 2301 W Passyunk Ave, Philadelphia, PA 19145</p>
+            <p><i class="fab fa-whatsapp contact-icons"></i><strong data-lang="whatsapp">WhatsApp:</strong> <a href="https://wa.me/18722027536" target="_blank">+1 (872) 202-7536</a></p>
+            <p><i class="fas fa-envelope contact-icons"></i><strong data-lang="email">Email:</strong> <a href="mailto:antique_vault247@protonmail.com">antique_vault247@protonmail.com</a></p>
+            <p><i class="fas fa-envelope contact-icons"></i><strong data-lang="email">Email:</strong> <a href="mailto:antique_vault247@outlook.com">antique_vault247@outlook.com</a></p>
+            <a href="mailto:antique_vault247@protonmail.com" class="btn btn-custom" data-lang="getInTouch">Get in Touch</a>
+        </section>
+        
+        <footer class="footer">
+            <p data-lang="footerText">&copy; 1925-2025 The Antique Vault. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const translations = {
+            "en": {
+                "language": "English",
+                "english": "English",
+                "german": "German",
+                "french": "French",
+                "italian": "Italian",
+                "spanish": "Spanish",
+                "portuguese": "Portuguese",
+                "aboutUsTitle": "About Us",
+                "aboutUsText1": "Where history meets elegance, and timeless treasures are just a step away from becoming part of your collection.",
+                "aboutUsText2": "We specialize in high-quality antique and vintage items, offering rare furniture pieces, classic décor, and exquisite collectibles.",
+                "aboutUsText3": "Enjoy flexible payment options, including our 'Pay Later' plan, to bring home your dream antiques with ease.",
+                "featuredAntiquesTitle": "Featured Antiques",
+                "antique1": "Leica 0-Series No.122",
+                "antique2": "AN EXCEEDINGLY RARE AND IMPORTANT COMPLETE SET OF THE SUTRA OF PERFECT ENLIGHTENMENT BY THE QIANLONG EMPEROR, DATED QIANLONG BINGYIN YEAR, CORRESPONDING TO 1746",
+                "antique3": "AN EXCEPTIONALLY RARE AND LARGE WHITE JADE ‘CHILONG’ BI DISC, EASTERN HAN DYNASTY",
+                "antique4": "ARNOLD BÖCKLIN, MEDUSENSCHILD (SHIELD WITH THE HEAD OF MEDUSA)",
+                "antique5": "A GILT-BRONZE FIGURE OF CINTAMANICAKRA AVALOKITESHVARA LATE TANG DYNASTY / FIVE DYNASTIES",
+                "antique6": "A RARE WHITE JADE 'IMPERIAL PROCESSION' BRUSHPOT QING DYNASTY, QIANLONG / JIAQING PERIOD",
+                "contactUsTitle": "Contact Us",
+                "ceo": "CEO:",
+                "address": "Address:",
+                "whatsapp": "WhatsApp:",
+                "email": "Email:",
+                "visitUs": "Visit Us:",
+                "getInTouch": "Get in Touch",
+                "footerText": "&copy; 1925-2025 The Antique Vault. All rights reserved."
+            },
+            "de": {
+                "language": "Deutsch",
+                "english": "Englisch",
+                "german": "Deutsch",
+                "french": "Französisch",
+                "italian": "Italienisch",
+                "spanish": "Spanisch",
+                "portuguese": "Portugiesisch",
+                "aboutUsTitle": "Über uns",
+                "aboutUsText1": "Wo Geschichte auf Eleganz trifft und zeitlose Schätze nur einen Schritt davon entfernt sind, Teil Ihrer Sammlung zu werden.",
+                "aboutUsText2": "Wir sind auf hochwertige antike und Vintage-Artikel spezialisiert und bieten seltene Möbelstücke, klassische Dekorationen und exquisite Sammlerstücke an.",
+                "aboutUsText3": "Genießen Sie flexible Zahlungsmöglichkeiten, einschließlich unseres 'Später bezahlen'-Plans, um Ihre Traumantiquitäten ganz einfach nach Hause zu bringen.",
+                "featuredAntiquesTitle": "Ausgewählte Antiquitäten",
+                "antique1": "Leica 0-Serie Nr.122",
+                "antique2": "Ein äußerst seltenes und wichtiges vollständiges Exemplar der Sutra der vollkommenen Erleuchtung des Qianlong-Kaisers, datiert auf das Qianlong-Bingyin-Jahr, entsprechend 1746",
+                "antique3": "Eine außergewöhnlich seltene und große weiße Jade ‘Chilong’ Bi-Scheibe, Östliche Han-Dynastie",
+                "antique4": "Arnold Böcklin, Medusenschild (Schild mit dem Kopf der Medusa)",
+                "antique5": "Eine vergoldete Bronzefigur des Cintamanicakra Avalokiteshvara, Späte Tang-Dynastie / Fünf Dynastien",
+                "antique6": "Ein seltener weißer Jade-Pinselhalter mit ‘kaiserlicher Prozession’, Qing-Dynastie, Qianlong- / Jiaqing-Periode",
+                "contactUsTitle": "Kontaktieren Sie uns",
+                "ceo": "CEO:",
+                "address": "Adresse:",
+                "whatsapp": "WhatsApp:",
+                "email": "E-Mail:",
+                "visitUs": "Besuchen Sie uns:",
+                "getInTouch": "Kontakt aufnehmen",
+                "footerText": "&copy; 1925-2025 The Antique Vault. Alle Rechte vorbehalten."
+            },
+            "fr": {
+                "language": "Français",
+                "english": "Anglais",
+                "german": "Allemand",
+                "french": "Français",
+                "italian": "Italien",
+                "spanish": "Espagnol",
+                "portuguese": "Portugais",
+                "aboutUsTitle": "À propos de nous",
+                "aboutUsText1": "Où l’histoire rencontre l’élégance, et où des trésors intemporels sont à un pas de votre collection.",
+                "aboutUsText2": "Nous sommes spécialisés dans les antiquités et objets vintage de haute qualité, proposant des meubles rares, des décorations classiques et des objets de collection exquis.",
+                "aboutUsText3": "Profitez d’options de paiement flexibles, y compris notre plan 'Payer plus tard', pour acquérir facilement les antiquités de vos rêves.",
+                "featuredAntiquesTitle": "Antiquités en vedette",
+                "antique1": "Leica 0-Série No.122",
+                "antique2": "Un ensemble complet extrêmement rare et important du Sutra de l’illumination parfaite de l’empereur Qianlong, daté de l’année Bingyin de Qianlong, correspondant à 1746",
+                "antique3": "Un disque Bi en jade blanc ‘Chilong’ exceptionnellement rare et grand, Dynastie Han orientale",
+                "antique4": "Arnold Böcklin, Bouclier de Méduse (Bouclier avec la tête de Méduse)",
+                "antique5": "Une figure en bronze doré de Cintamanicakra Avalokiteshvara, Fin de la dynastie Tang / Cinq dynasties",
+                "antique6": "Un rare pot à pinceaux en jade blanc 'Procession impériale', Dynastie Qing, période Qianlong / Jiaqing",
+                "contactUsTitle": "Nous contacter",
+                "ceo": "PDG :",
+                "address": "Adresse :",
+                "whatsapp": "WhatsApp :",
+                "email": "E-mail :",
+                "visitUs": "Visitez-nous :",
+                "getInTouch": "Prendre contact",
+                "footerText": "&copy; 1925-2025 The Antique Vault. Tous droits réservés."
+            },
+            "it": {
+                "language": "Italiano",
+                "english": "Inglese",
+                "german": "Tedesco",
+                "french": "Francese",
+                "italian": "Italiano",
+                "spanish": "Spagnolo",
+                "portuguese": "Portoghese",
+                "aboutUsTitle": "Chi siamo",
+                "aboutUsText1": "Dove la storia incontra l'eleganza e i tesori senza tempo sono a un passo dall'entrare nella tua collezione.",
+                "aboutUsText2": "Siamo specializzati in articoli d'antiquariato e vintage di alta qualità, offrendo mobili rari, decorazioni classiche e squisiti oggetti da collezione.",
+                "aboutUsText3": "Goditi opzioni di pagamento flessibili, incluso il nostro piano 'Paga dopo', per portare facilmente a casa le tue antichità da sogno.",
+                "featuredAntiquesTitle": "Antichità in evidenza",
+                "antique1": "Leica 0-Serie No.122",
+                "antique2": "Un set completo estremamente raro e importante del Sutra dell'illuminazione perfetta dell'imperatore Qianlong, datato anno Bingyin di Qianlong, corrispondente al 1746",
+                "antique3": "Un disco Bi in giada bianca ‘Chilong’ eccezionalmente raro e grande, Dinastia Han Orientale",
+                "antique4": "Arnold Böcklin, Scudo di Medusa (Scudo con la testa di Medusa)",
+                "antique5": "Una figura in bronzo dorato di Cintamanicakra Avalokiteshvara, Fine dinastia Tang / Cinque dinastie",
+                "antique6": "Un raro portapennelli in giada bianca 'Processione imperiale', Dinastia Qing, periodo Qianlong / Jiaqing",
+                "contactUsTitle": "Contattaci",
+                "ceo": "CEO:",
+                "address": "Indirizzo:",
+                "whatsapp": "WhatsApp:",
+                "email": "E-mail:",
+                "visitUs": "Visita noi:",
+                "getInTouch": "Mettiti in contatto",
+                "footerText": "&copy; 1925-2025 The Antique Vault. Tutti i diritti riservati."
+            },
+            "es": {
+                "language": "Español",
+                "english": "Inglés",
+                "german": "Alemán",
+                "french": "Francés",
+                "italian": "Italiano",
+                "spanish": "Español",
+                "portuguese": "Portugués",
+                "aboutUsTitle": "Sobre nosotros",
+                "aboutUsText1": "Donde la historia se encuentra con la elegancia y los tesoros atemporales están a solo un paso de formar parte de tu colección.",
+                "aboutUsText2": "Nos especializamos en antigüedades y artículos vintage de alta calidad, ofreciendo muebles raros, decoración clásica y exquisitos objetos de colección.",
+                "aboutUsText3": "Disfruta de opciones de pago flexibles, incluido nuestro plan 'Pagar después', para llevarte fácilmente a casa las antigüedades de tus sueños.",
+                "featuredAntiquesTitle": "Antigüedades destacadas",
+                "antique1": "Leica 0-Serie No.122",
+                "antique2": "Un conjunto completo extremadamente raro e importante del Sutra de la iluminación perfecta del emperador Qianlong, fechado en el año Bingyin de Qianlong, correspondiente a 1746",
+                "antique3": "Un disco Bi en jade blanco ‘Chilong’ excepcionalmente raro y grande, Dinastía Han Oriental",
+                "antique4": "Arnold Böcklin, Escudo de Medusa (Escudo con la cabeza de Medusa)",
+                "antique5": "Una figura en bronce dorado de Cintamanicakra Avalokiteshvara, Final de la dinastía Tang / Cinco dinastías",
+                "antique6": "Un raro bote para pinceles en jade blanco 'Procesión imperial', Dinastía Qing, periodo Qianlong / Jiaqing",
+                "contactUsTitle": "Contáctanos",
+                "ceo": "CEO:",
+                "address": "Dirección:",
+                "whatsapp": "WhatsApp:",
+                "email": "Correo electrónico:",
+                "visitUs": "Visítanos:",
+                "getInTouch": "Ponerse en contacto",
+                "footerText": "&copy; 1925-2025 The Antique Vault. Todos los derechos reservados."
+            },
+            "pt": {
+                "language": "Português",
+                "english": "Inglês",
+                "german": "Alemão",
+                "french": "Francês",
+                "italian": "Italiano",
+                "spanish": "Espanhol",
+                "portuguese": "Português",
+                "aboutUsTitle": "Sobre nós",
+                "aboutUsText1": "Onde a história encontra a elegância e os tesouros intemporais estão a um passo de fazer parte da sua coleção.",
+                "aboutUsText2": "Somos especializados em antiguidades e itens vintage de alta qualidade, oferecendo móveis raros, decoração clássica e colecionáveis requintados.",
+                "aboutUsText3": "Aproveite opções de pagamento flexíveis, incluindo nosso plano 'Pague depois', para levar para casa as antiguidades dos seus sonhos com facilidade.",
+                "featuredAntiquesTitle": "Antiguidades em destaque",
+                "antique1": "Leica 0-Série No.122",
+                "antique2": "Um conjunto completo extremamente raro e importante do Sutra da Iluminação Perfeita do Imperador Qianlong, datado do ano Bingyin de Qianlong, correspondente a 1746",
+                "antique3": "Um disco Bi em jade branco ‘Chilong’ excepcionalmente raro e grande, Dinastia Han Oriental",
+                "antique4": "Arnold Böcklin, Escudo de Medusa (Escudo com a cabeça de Medusa)",
+                "antique5": "Uma figura em bronze dourado de Cintamanicakra Avalokiteshvara, Final da dinastia Tang / Cinco dinastias",
+                "antique6": "Um raro suporte para pincéis em jade branco 'Procissão imperial', Dinastia Qing, período Qianlong / Jiaqing",
+                "contactUsTitle": "Contate-nos",
+                "ceo": "CEO:",
+                "address": "Endereço:",
+                "whatsapp": "WhatsApp:",
+                "email": "E-mail:",
+                "visitUs": "Visite-nos:",
+                "getInTouch": "Entre em contato",
+                "footerText": "&copy; 1925-2025 The Antique Vault. Todos os direitos reservados."
+            },
+            // Add more languages as needed
+        };
+
+        let currentLanguage = "en";
+
+        function changeLanguage(lang) {
+            console.log(`Changing language to: ${lang}`);
+            currentLanguage = lang;
+            updateContent();
+        }
+
+        function updateContent() {
+            console.log(`Updating content to language: ${currentLanguage}`);
+            const elements = document.querySelectorAll("[data-lang]");
+            elements.forEach(element => {
+                const key = element.getAttribute("data-lang");
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    console.log(`Updating element with key: ${key}`);
+                    element.innerHTML = translations[currentLanguage][key];
+                } else if (translations["en"][key]) {
+                    console.log(`Fallback to English for key: ${key}`);
+                    element.innerHTML = translations["en"][key]; // Default to English if translation is missing
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("Document loaded, updating content...");
+            updateContent();
+        });
+    </script>
+</body>
+</html>
